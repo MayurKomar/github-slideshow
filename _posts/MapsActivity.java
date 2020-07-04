@@ -48,7 +48,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerOptions.position(latLng);
                 Latitude = latLng.latitude;
                 Longitude = latLng.longitude;
-                //markerOptions.title(latLng.latitude+ " : " +latLng.longitude);
                 mMap.clear();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng ,10));
                 mMap.addMarker(markerOptions);
