@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="9dp"
+    android:onClick="onCardClicked">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hotel_image"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/textHotel_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="14dp"
+                android:layout_toEndOf="@+id/hotel_image"
+                android:layout_toRightOf="@+id/hotel_image"
+                android:fontFamily="@font/muli_black"
+                android:paddingRight="20dp"
+                android:text="Hotel name"
+                android:textColor="@color/Black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textHotel_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textHotel_name"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/hotel_image"
+                android:layout_toRightOf="@+id/hotel_image"
+                android:fontFamily="@font/muli"
+                android:paddingRight="20dp"
+                android:text="Hotel Phone No"
+                android:textColor="@color/Black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textHotel_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textHotel_phone"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/hotel_image"
+                android:layout_toRightOf="@+id/hotel_image"
+                android:fontFamily="@font/muli"
+                android:paddingRight="20dp"
+                android:text="Hotel City"
+                android:textColor="@color/Black"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

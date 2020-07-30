@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".onHotelCardClicked"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/hotelImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:padding="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/muli"
+            android:text="Hotel Name" />
+
+        <TextView
+            android:id="@+id/hotelNametext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-17dp"
+            android:fontFamily="@font/muli_black"
+            android:padding="15dp"
+            android:text="Hotel Name"
+            android:textColor="@color/Black"
+            android:textSize="30dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/muli"
+            android:text="Hotel Phone No." />
+
+        <TextView
+            android:id="@+id/hotelphoneNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-17dp"
+            android:fontFamily="@font/muli"
+            android:padding="15dp"
+            android:text="8665655655454"
+            android:textColor="@color/Black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/muli"
+            android:text="Hotel City" />
+
+        <TextView
+            android:id="@+id/hotelcity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-17dp"
+            android:fontFamily="@font/muli"
+            android:padding="15dp"
+            android:text="ahmednagar"
+            android:textColor="@color/Black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/muli"
+            android:text="No. of rooms in hotel" />
+
+        <TextView
+            android:id="@+id/hotelrooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-17dp"
+            android:fontFamily="@font/muli"
+            android:padding="15dp"
+            android:text="16"
+            android:textColor="@color/Black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/muli"
+            android:text="Room Price" />
+
+        <TextView
+            android:id="@+id/hotelroomprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-17dp"
+            android:fontFamily="@font/muli"
+            android:padding="15dp"
+            android:text="16"
+            android:textColor="@color/Black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/LocationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FFFF00"
+            android:text="View Location on map"
+            android:layout_marginLeft="15dp"/>
+
+        <Button
+            android:id="@+id/bookbutton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Book Room"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/Black"
+            android:textColor="@color/White"
+            android:layout_marginBottom="30dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
