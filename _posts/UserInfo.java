@@ -1,68 +1,27 @@
-package com.example.planmytrip;
+package com.example.customerplanmytrip;
 
 public class UserInfo {
+    private String user;
+    private String password;
+    private String phone;
+    private String email;
 
-    String Hotelname,email,password,phoneNo,roomNo,price,Latitude,Longitude,city,imageUrl;
-    public UserInfo(String hotelname, String email, String password, String phoneNo, String roomNo, String price, String latitude, String longitude, String city,String imageUrl) {
-        Hotelname = hotelname;
-        this.email = email;
+    public UserInfo(String user, String password, String phone, String email) {
+        this.user = user;
         this.password = password;
-        this.phoneNo = phoneNo;
-        this.roomNo = roomNo;
-        this.price = price;
-        Latitude = latitude;
-        Longitude = longitude;
-        this.city = city;
-        this.imageUrl = imageUrl;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getHotelname() {
-        return Hotelname;
-    }
-
-    public void setHotelname(String hotelname) {
-        Hotelname = hotelname;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getLatitude() {
-        return Latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        Latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return Longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        Longitude = longitude;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+        this.phone = phone;
         this.email = email;
+    }
+
+    public UserInfo() {
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getPassword() {
@@ -73,29 +32,19 @@ public class UserInfo {
         this.password = password;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getRoomNo() {
-        return roomNo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRoomNo(String roomNo) {
-        this.roomNo = roomNo;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-
 }

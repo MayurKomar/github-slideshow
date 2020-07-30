@@ -1,9 +1,8 @@
-package com.example.planmytrip;
+package com.example.customerplanmytrip;
 
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
-import android.location.Address;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,12 +15,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    double Latitude,Longitude;
+    private Double Lat;
+    private Double Long;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -41,26 +42,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                Latitude = latLng.latitude;
-                Longitude = latLng.longitude;
-                mMap.clear();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng ,10));
-                mMap.addMarker(markerOptions);
-            }
-        });
-    }
+        Intent intent = getIntent();
+        Lat = intent.getDoubleExtra("Lat",0.00);
+        Long = intent.getDoubleExtra("Long",0.00);
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("Latitude",Latitude);
-        intent.putExtra("Longitude",Longitude);
-        setResult(RESULT_OK,intent);
-        finish();
+        LatLng sydney = new LatLng(Lat,Long);
+        mMap.addMarker(new MarkerOptions().position(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

@@ -1,18 +1,11 @@
-
-package com.example.planmytrip;
+package com.example.customerplanmytrip;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
@@ -31,47 +22,39 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 public class VerifyNo extends AppCompatActivity {
 
+    public static final String send_username = "com.example.planmytrip.send_username";
+    public static final String send_email = "com.example.planmytrip.send_email";
+    public static final String send_password = "com.example.planmytrip.send_password";
+    public static final String send_phone = "com.example.planmytrip.send_phone";
+    String _username, _email, _pasword, _phone, otpBySystem, whattodo;
+    ProgressBar progressBar;
     Button btnVerify;
     EditText otp;
-    ProgressBar progressBar;
-    String otpsentbysystem;
-    String hotel_name, e_mail, password, phoneNumber, room, price, lat, longi, city, whatToDo = null,imageUrl = " ";
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("customers");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_no);
 
-        btnVerify = findViewById(R.id.verify_btn);
-        otp = findViewById(R.id.otp);
+        Intent intent = getIntent();
+        _username = intent.getStringExtra(send_username);
+        _email = intent.getStringExtra(send_email);
+        _pasword = intent.getStringExtra(send_password);
+        _phone = intent.getStringExtra(send_phone);
+        whattodo = intent.getStringExtra("whattodo");
+
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
+        btnVerify = findViewById(R.id.verify_btn);
+        otp = findViewById(R.id.otp);
 
-        Intent intent = getIntent();
-        hotel_name = intent.getStringExtra("hotelname");
-        e_mail = intent.getStringExtra("email");
-        password = intent.getStringExtra("password");
-        phoneNumber = intent.getStringExtra("phoneNo");
-        room = intent.getStringExtra("room");
-        price = intent.getStringExtra("price");
-        city = intent.getStringExtra("city");
-        lat = intent.getStringExtra("latitude");
-        longi = intent.getStringExtra("longitude");
-        whatToDo = intent.getStringExtra("whatToDo");
-
-        if (!isConnected(VerifyNo.this)) {
-            showCustomDialog();
-        }
-
-        sendVerification(phoneNumber);
+        sendVerification(_phone);
 
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,28 +69,28 @@ public class VerifyNo extends AppCompatActivity {
                 verifyCode(code);
             }
         });
+
     }
 
-    private void sendVerification(String phoneNo) {
+    private void sendVerification(String phone) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+91" + phoneNo,        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                TaskExecutors.MAIN_THREAD,               // Activity (for callback binding)
-                mCallbacks);        // OnVerificationStateChangedCallbacks
+                "+91" + _phone,
+                60,
+                TimeUnit.SECONDS,
+                TaskExecutors.MAIN_THREAD,
+                mCallbacks);
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
-            otpsentbysystem = s;
-
+            otpBySystem = s;
         }
 
         @Override
-        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
                 progressBar.setVisibility(View.VISIBLE);
@@ -116,97 +99,37 @@ public class VerifyNo extends AppCompatActivity {
         }
 
         @Override
-        public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(VerifyNo.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        public void onVerificationFailed(@NonNull FirebaseException e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
 
     private void verifyCode(String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(otpsentbysystem, code);
-        signInbyCresentials(credential);
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(otpBySystem, code);
+        signInbtCredentials(credential);
     }
 
-    private void signInbyCresentials(PhoneAuthCredential credential) {
+    private void signInbtCredentials(PhoneAuthCredential credential) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if (whatToDo == null) {
-                                registerUser();
-                            } else {
-                                updatePassword();
+                            if (whattodo.contains("updatePassword")) {
+                                Intent intent = new Intent(getApplicationContext(),SetNewPassword.class);
+                                intent.putExtra(send_username,_username);
+                                startActivity(intent);
+                            }else{
+                                UserInfo user = new UserInfo(_username, _email, _pasword, _phone);
+                                reference.child(_username).setValue(user);
+                                Intent intent = new Intent(getApplicationContext(), OperationComplete.class);
+                                intent.putExtra("activity", "verify");
+                                startActivity(intent);
+                                finish();
                             }
-                        } else {
-                            Toast.makeText(VerifyNo.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    private void registerUser() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        UserInfo user = new UserInfo(hotel_name, e_mail, password, phoneNumber, room, price, lat, longi, city,imageUrl);
-        reference.child(hotel_name).setValue(user);
-        Intent intent = new Intent(getApplicationContext(), UploadHotelImage.class);
-        intent.putExtra("hotelname",hotel_name);
-        startActivity(intent);
-        finish();
-    }
-
-    private void updatePhoneNo() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.child(hotel_name).child("phoneNo").setValue(phoneNumber);
-        Intent intent = new Intent(getApplicationContext(), HotelProfile.class);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    private void updatePassword() {
-        if (whatToDo.contains("updatePhone")) {
-            updatePhoneNo();
-            return;
-        }
-        Intent intent = new Intent(getApplicationContext(), setNewPassword.class);
-        intent.putExtra("hotelname", hotel_name);
-        startActivity(intent);
-        finish();
-    }
-
-
-    private void showCustomDialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please connect to internet to proceed further")
-                .setCancelable(false)
-                .setPositiveButton("connect", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private boolean isConnected(VerifyNo dashboard) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) dashboard.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-
-        NetworkInfo wificon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo mobilecon = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if ((wificon != null && wificon.isConnected()) || (mobilecon != null && mobilecon.isConnected())) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
